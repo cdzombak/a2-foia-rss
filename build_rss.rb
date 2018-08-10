@@ -2,6 +2,7 @@ require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 require 'rss'
+require 'json'
 
 page = Nokogiri::HTML(open("https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"))   
 rows = page.css("article table")[0].css("tr")
@@ -35,23 +36,30 @@ items = rows[0...50].map { |row|
         :id => id,
         :req_date => req_date,
         :req_name => req_name,
+        :status => status,
         :title => "FOIA \##{id} by #{req_name}: #{status}",
         :link => "https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx\##{id}",
         :html_content => "<b>FOIA \##{id}</b><br /><b>Submitted by:</b> #{req_name}<br /><b>Received:</b> #{req_date.strftime("%B %-d, %Y")}<br /><b>Due:</b> #{due_date.strftime("%B %-d, %Y")}<br /><b>Status:</b> #{status}<br /><br />#{html}"
     }
 }
 
+feed_title = "City of Ann Arbor FOIA Requests"
+feed_author = "City of Ann Arbor"
+feed_webpage = "https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"
+feed_desc = "Unofficial feed of FOIA requests handled by the City of Ann Arbor. This feed does not include requests for police records."
+feed_img = "http://www.a2gov.org/publishingimages/color-logo.jpg"
+
 # options: atom, 2.0, 0.9
-feed = RSS::Maker.make("2.0") do |maker|
-    maker.channel.author = "City of Ann Arbor"
+rss_feed = RSS::Maker.make("2.0") do |maker|
+    maker.channel.author = feed_author
     maker.channel.language = "en"
     maker.channel.updated = Time.now.to_s
-    maker.channel.link = "https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"
-    maker.channel.about = "https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"
-    maker.channel.title = "City of Ann Arbor FOIA Requests"
-    maker.channel.description = "Unofficial feed of FOIA requests handled by the City of Ann Arbor. This feed does not include requests for police records."
-    maker.image.url = "http://www.a2gov.org/publishingimages/color-logo.jpg"
-    maker.image.title = "City of Ann Arbor FOIA Requests"
+    maker.channel.link = feed_webpage
+    maker.channel.about = feed_webpage
+    maker.channel.title = feed_title
+    maker.channel.description = feed_desc
+    maker.image.url = feed_img
+    maker.image.title = feed_title
 
     for i in items
         maker.items.new_item do |item|
@@ -68,4 +76,31 @@ feed = RSS::Maker.make("2.0") do |maker|
     end
 end
 
-puts feed
+File.write('public/a2-foia.rss', rss_feed.to_s)
+
+json_feed = {
+    "version" => "https://jsonfeed.org/version/1",
+    "title" => feed_title,
+    "home_page_url": feed_webpage,
+    "feed_url" => "https://www.dzombak.com/local/feed/a2-foia.json",
+    "description" => feed_desc,
+    "icon" => feed_img,
+    "author" => {
+        "name" => feed_author,
+        "url" => "https://www.a2gov.org",
+        "avatar" => feed_img
+    },
+    "items" => items.map { |i| 
+        {
+            "id" => i[:id],
+            "content_html" => i[:html_content],
+            "url" => i[:link],
+            "title" => i[:title],
+            "date_published" => i[:req_date].rfc3339,
+            "author" => i[:req_name],
+            "tags" => [i[:status]]
+        }
+    }
+}
+
+File.write('public/a2-foia.json', JSON.pretty_generate(json_feed))

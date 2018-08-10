@@ -31,7 +31,7 @@ feed = RSS::Maker.make("2.0") do |maker|
     maker.channel.link = "https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"
     maker.channel.about = "https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"
     maker.channel.title = "City of Ann Arbor FOIA Requests"
-    maker.channel.description = "FOIA requests handled by the City of Ann Arbor. This feed does not inclide requests for police records."
+    maker.channel.description = "FOIA requests handled by the City of Ann Arbor. This feed does not include requests for police records."
     maker.image.url = "http://www.a2gov.org/publishingimages/color-logo.jpg"
     maker.image.title = "City of Ann Arbor FOIA Requests"
 

@@ -2,7 +2,6 @@ require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 require 'rss'
-require 'Date'
 
 page = Nokogiri::HTML(open("https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"))   
 rows = page.css("article table")[0].css("tr")

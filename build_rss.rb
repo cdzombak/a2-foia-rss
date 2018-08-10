@@ -48,7 +48,7 @@ feed = RSS::Maker.make("2.0") do |maker|
         maker.items.new_item do |item|
             item.id = req_id.to_s
             item.link = "https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"
-            item.title = "FOIA \##{req_id} from #{req_name}"
+            item.title = "FOIA \##{req_id} by #{req_name}: #{req_status}"
             item.summary = xhtml_content
             item.content.type = "xhtml"
             item.content.xhtml = xhtml_content

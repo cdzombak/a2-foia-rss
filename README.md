@@ -1,10 +1,10 @@
 # Ann Arbor FOIA RSS Feed
 
-Generates an RSS feed from Ann Arbor's public [FOIA request database](https://www.dzombak.com/local/feed/a2-foia.rss).
+Generates an RSS feed from Ann Arbor's public [FOIA request database](https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx).
 
 ## Using the feed
 
-If you're just interested in reading the feed, simply add `https://www.dzombak.com/local/feed/a2-foia.rss` to your feed reader of choice.
+If you're just interested in reading the feed, add [`https://www.dzombak.com/local/feed/a2-foia.rss`](https://www.dzombak.com/local/feed/a2-foia.rss) to your feed reader of choice.
 
 ## Deployment
 

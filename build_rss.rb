@@ -43,12 +43,14 @@ feed = RSS::Maker.make("2.0") do |maker|
         due_date = Date.strptime(cells[4].text.strip, "%m/%d/%Y")
         req_status = cells[5].text.strip
 
+        item_link = "https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx\##{req_id}"
+        item_title = "FOIA \##{req_id} by #{req_name}: #{req_status}"
         xhtml_content = "<b>FOIA \##{req_id}</b><br><b>Submitted by:</b> #{req_name}<br /><b>Received:</b> #{req_date.strftime("%B %-d, %Y")}<br /><b>Due:</b> #{due_date.strftime("%B %-d, %Y")}<br /><b>Status:</b> #{req_status}<br /><br />#{req_text}"
 
         maker.items.new_item do |item|
             item.id = req_id.to_s
-            item.link = "https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"
-            item.title = "FOIA \##{req_id} by #{req_name}: #{req_status}"
+            item.link = item_link
+            item.title = item_title
             item.summary = xhtml_content
             item.content.type = "xhtml"
             item.content.xhtml = xhtml_content

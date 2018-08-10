@@ -96,7 +96,7 @@ json_feed = {
             "content_html" => i[:html_content],
             "url" => i[:link],
             "title" => i[:title],
-            "date_published" => i[:req_date].rfc3339,
+            "date_published" => i[:req_date].to_time.to_datetime.rfc3339,
             "author" => i[:req_name],
             "tags" => [i[:status]]
         }

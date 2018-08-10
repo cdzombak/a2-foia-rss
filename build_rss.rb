@@ -34,6 +34,7 @@ items = rows[0...50].map { |row|
     {
         :id => id,
         :req_date => req_date,
+        :req_name => req_name,
         :title => "FOIA \##{id} by #{req_name}: #{status}",
         :link => "https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx\##{id}",
         :html_content => "<b>FOIA \##{id}</b><br /><b>Submitted by:</b> #{req_name}<br /><b>Received:</b> #{req_date.strftime("%B %-d, %Y")}<br /><b>Due:</b> #{due_date.strftime("%B %-d, %Y")}<br /><b>Status:</b> #{status}<br /><br />#{html}"
@@ -62,6 +63,7 @@ feed = RSS::Maker.make("2.0") do |maker|
             item.content.xhtml = i[:html_content]
             item.pubDate = i[:req_date].to_s
             item.updated = i[:req_date].to_s
+            item.author = i[:req_name]
         end
     end
 end

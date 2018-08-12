@@ -28,8 +28,8 @@ items = rows[0...50].map { |row|
     id = cells[0].text.strip
     req_name = cells[1].text.strip
     html = cells[2].children.to_html.gsub("<br>", "<br />")
-    req_date = Date.strptime(cells[3].text.strip, "%m/%d/%Y")
-    due_date = Date.strptime(cells[4].text.strip, "%m/%d/%Y")
+    req_date = Time.strptime(cells[3].text.strip + " America/Detroit", "%m/%d/%Y %Z")
+    due_date = Time.strptime(cells[4].text.strip + " America/Detroit", "%m/%d/%Y %Z")
     status = cells[5].text.strip
 
     {
@@ -96,7 +96,7 @@ json_feed = {
             "content_html" => i[:html_content],
             "url" => i[:link],
             "title" => i[:title],
-            "date_published" => i[:req_date].to_time.to_datetime.rfc3339,
+            "date_published" => i[:req_date].to_datetime.rfc3339,
             "author" => i[:req_name],
             "tags" => [i[:status]]
         }

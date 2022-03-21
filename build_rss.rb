@@ -4,18 +4,18 @@ require 'open-uri'
 require 'rss'
 require 'json'
 
-page = Nokogiri::HTML(open("https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"))   
+page = Nokogiri::HTML(open("https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"))
 rows = page.css("article table")[0].css("tr")
 
 headers = rows[0].css("th").map{ |th| th.text.strip }
 rows = rows.drop(1)
 
 # sanity check table header; abort if things seem wrong
-if headers.length != 6
-    $stderr.puts("Expected 6 headers in table; got #{headers.length}")
+expected_headers = ["ID", "ID (Archived)", "Name", "Request", "Received", "Due Date", "Status"]
+if headers.length != expected_headers.length
+    $stderr.puts("Expected #{expected_headers.length} headers in table; got #{headers.length}")
     exit(2)
 end
-expected_headers = ["ID", "Name", "Request", "Received", "Due Date", "Status"]
 headers.zip(expected_headers) do |actual, expected|
     if actual != expected
         $stderr.puts("Expected table header #{expected}; got #{actual}")
@@ -23,17 +23,19 @@ headers.zip(expected_headers) do |actual, expected|
     end
 end
 
-items = rows[0...50].map { |row| 
+items = rows[0...50].map { |row|
     cells = row.css("td")
     id = cells[0].text.strip
-    req_name = cells[1].text.strip
-    html = cells[2].children.to_html.gsub("<br>", "<br />")
-    req_date = Time.strptime(cells[3].text.strip + " America/Detroit", "%m/%d/%Y %Z")
-    due_date = Time.strptime(cells[4].text.strip + " America/Detroit", "%m/%d/%Y %Z")
-    status = cells[5].text.strip
+    id_arch = cells[1].text.strip
+    req_name = cells[2].text.strip
+    html = cells[3].children.to_html.gsub("<br>", "<br />")
+    req_date = Time.strptime(cells[4].text.strip + " America/Detroit", "%m/%d/%Y %Z")
+    due_date = Time.strptime(cells[5].text.strip + " America/Detroit", "%m/%d/%Y %Z")
+    status = cells[6].text.strip
 
     {
         :id => id,
+        :id_archived => id_arch,
         :req_date => req_date,
         :req_name => req_name,
         :status => status,

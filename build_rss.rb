@@ -11,7 +11,7 @@ headers = rows[0].css("th").map{ |th| th.text.strip }
 rows = rows.drop(1)
 
 # sanity check table header; abort if things seem wrong
-expected_headers = ["ID", "ID (Archived)", "Name", "Request", "Received", "Due Date", "Status"]
+expected_headers = ["ID", "Name", "Request", "Received", "Due Date", "Status"]
 if headers.length != expected_headers.length
     $stderr.puts("Expected #{expected_headers.length} headers in table; got #{headers.length}")
     exit(2)
@@ -23,19 +23,24 @@ headers.zip(expected_headers) do |actual, expected|
     end
 end
 
+ID_IDX = 0
+REQ_NAME_IDX = 1
+REQ_IDX = 2
+RECEIVED_DATE_IDX = 3
+DUE_DATE_IDX = 4
+STATUS_IDX = 5
+
 items = rows[0...50].map { |row|
     cells = row.css("td")
-    id = cells[0].text.strip
-    id_arch = cells[1].text.strip
-    req_name = cells[2].text.strip
-    html = cells[3].children.to_html.gsub("<br>", "<br />")
-    req_date = Time.strptime(cells[4].text.strip + " America/Detroit", "%m/%d/%Y %Z")
-    due_date = Time.strptime(cells[5].text.strip + " America/Detroit", "%m/%d/%Y %Z")
-    status = cells[6].text.strip
+    id = cells[ID_IDX].text.strip
+    req_name = cells[REQ_NAME_IDX].text.strip
+    html = cells[REQ_IDX].children.to_html.gsub("<br>", "<br />")
+    req_date = Time.strptime(cells[RECEIVED_DATE_IDX].text.strip + " America/Detroit", "%m/%d/%Y %Z")
+    due_date = Time.strptime(cells[DUE_DATE_IDX].text.strip + " America/Detroit", "%m/%d/%Y %Z")
+    status = cells[STATUS_IDX].text.strip
 
     {
         :id => id,
-        :id_archived => id_arch,
         :req_date => req_date,
         :req_name => req_name,
         :status => status,

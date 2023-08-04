@@ -1,18 +1,32 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    mini_portile2 (2.3.0)
-    nokogiri (1.8.4)
-      mini_portile2 (~> 2.3.0)
+    date (3.3.3)
+    nokogiri (1.15.3-arm64-darwin)
+      racc (~> 1.4)
+    open-uri (0.3.0)
+      stringio
+      time
+      uri
+    racc (1.7.1)
+    rexml (3.2.6)
+    rss (0.2.9)
+      rexml
+    stringio (3.0.7)
+    time (0.2.2)
+      date
+    uri (0.12.2)
 
 PLATFORMS
-  ruby
+  arm64-darwin-22
 
 DEPENDENCIES
   nokogiri
+  open-uri
+  rss
 
 RUBY VERSION
-   ruby 2.3.7p456
+   ruby 3.2.2p53
 
 BUNDLED WITH
-   1.16.1
+   2.4.10

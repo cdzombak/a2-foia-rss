@@ -4,7 +4,8 @@ require 'open-uri'
 require 'rss'
 require 'json'
 
-page = Nokogiri::HTML(open("https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx"))
+file = URI.open("https://www.a2gov.org/departments/city-clerk/Pages/FOIA-Requests.aspx")
+page = Nokogiri::HTML(file)
 rows = page.css("section > table")[0].css("tr")
 
 headers = rows[0].css("th").map{ |th| th.text.strip }

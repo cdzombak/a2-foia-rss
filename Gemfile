@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '3.2.2'
 
 gem 'nokogiri'
+gem 'open-uri'
+gem 'rss'

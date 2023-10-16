@@ -1,5 +1,8 @@
-FROM ruby:2.3.1-alpine
-ENV BUNDLER_VERSION=1.16.1
+ARG BIN_VERSION=<unknown>
+
+FROM ruby:3.2.2-alpine
+ARG BIN_VERSION
+ENV BUNDLER_VERSION=2.4.10
 
 RUN apk add --update --no-cache build-base
 
@@ -19,3 +22,4 @@ LABEL org.opencontainers.image.documentation="https://github.com/cdzombak/a2-foi
 LABEL org.opencontainers.image.source="https://github.com/cdzombak/a2-foia-rss.git"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.title="a2-foia-rss"
+LABEL org.opencontainers.image.version="${BIN_VERSION}"

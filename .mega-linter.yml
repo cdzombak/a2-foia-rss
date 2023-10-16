@@ -1,6 +1,7 @@
 # https://megalinter.io/configuration/
 ---
 VALIDATE_ALL_CODEBASE: true
+FILTER_REGEX_EXCLUDE: \.ruby-lint\.yml
 
 DISABLE:
   - SPELL

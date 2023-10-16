@@ -4,15 +4,13 @@ FROM ruby:3.2.2-alpine
 ARG BIN_VERSION
 ENV BUNDLER_VERSION=2.4.10
 
-RUN apk add --update --no-cache build-base
-
+RUN apk add --update --no-cache build-base gcompat
 RUN gem install bundler -v ${BUNDLER_VERSION}
 WORKDIR /app
 COPY *.rb Gemfile Gemfile.lock ./
 RUN bundle install
 RUN mkdir -p /app/public && chmod 0755 /app/public
-
-ENTRYPOINT ["bundle", "exec", "build_rss.rb"]
+ENTRYPOINT ["bundle", "exec", "ruby", "/app/build_rss.rb"]
 
 LABEL license="MIT"
 LABEL maintainer="Chris Dzombak <https://www.dzombak.com>"

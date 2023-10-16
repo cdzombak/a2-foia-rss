@@ -10,7 +10,7 @@ Add [`https://www.dzombak.com/local/feed/a2-foia.rss`](https://www.dzombak.com/l
 
 ## Deployment (Docker)
 
-Pre-built Docker images are available for amd64, 386, and arm64; see Docker Hub or GHCR for details (links TK). This is the preferred deployment method, as it avoids the need to deal with Ruby versions or building Nokogiri.
+Pre-built Docker images are available for linux/amd64, linux/arm64, and linux/386; see [Docker Hub](https://hub.docker.com/repository/docker/cdzombak/a2-foia-rss/general) or [GHCR](https://github.com/cdzombak/a2-foia-rss/pkgs/container/a2-foia-rss) for details. This is the preferred deployment method, as it avoids the need to deal with Ruby versions or building Nokogiri.
 
 Run the image like the following:
 

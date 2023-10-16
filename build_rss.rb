@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
@@ -36,8 +38,8 @@ items = rows[0...50].map do |row|
   id = cells[ID_IDX].text.strip
   req_name = cells[REQ_NAME_IDX].text.strip
   html = cells[REQ_IDX].children.to_html.gsub('<br>', '<br />')
-  req_date = Time.strptime(cells[RECEIVED_DATE_IDX].text.strip + ' America/Detroit', '%m/%d/%Y %Z')
-  due_date = Time.strptime(cells[DUE_DATE_IDX].text.strip + ' America/Detroit', '%m/%d/%Y %Z')
+  req_date = Time.strptime("#{cells[RECEIVED_DATE_IDX].text.strip} America/Detroit", '%m/%d/%Y %Z')
+  due_date = Time.strptime("#{cells[DUE_DATE_IDX].text.strip} America/Detroit", '%m/%d/%Y %Z')
   status = cells[STATUS_IDX].text.strip
 
   {
@@ -69,7 +71,7 @@ rss_feed = RSS::Maker.make('2.0') do |maker|
   maker.image.url = feed_img
   maker.image.title = feed_title
 
-  for i in items
+  items.each do |i|
     maker.items.new_item do |item|
       item.id = i[:id]
       item.link = i[:link]

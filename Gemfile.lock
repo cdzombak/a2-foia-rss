@@ -2,13 +2,15 @@ GEM
   remote: https://rubygems.org/
   specs:
     date (3.3.3)
-    nokogiri (1.15.4)
+    nokogiri (1.16.2-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
     open-uri (0.3.0)
       stringio
       time
       uri
-    racc (1.7.1)
+    racc (1.7.3)
     rexml (3.2.6)
     rss (0.2.9)
       rexml
@@ -19,6 +21,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
+  x86_64-linux
 
 DEPENDENCIES
   nokogiri

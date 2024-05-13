@@ -2,9 +2,9 @@ GEM
   remote: https://rubygems.org/
   specs:
     date (3.3.3)
-    nokogiri (1.16.2-arm64-darwin)
+    nokogiri (1.16.5-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.2-x86_64-linux)
+    nokogiri (1.16.5-x86_64-linux)
       racc (~> 1.4)
     open-uri (0.3.0)
       stringio

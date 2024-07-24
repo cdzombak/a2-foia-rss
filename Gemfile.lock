@@ -11,8 +11,8 @@ GEM
       time
       uri
     racc (1.7.3)
-    rexml (3.2.8)
-      strscan (>= 3.0.9)
+    rexml (3.3.2)
+      strscan
     rss (0.2.9)
       rexml
     stringio (3.0.7)

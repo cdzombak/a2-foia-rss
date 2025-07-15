@@ -55,3 +55,5 @@ Thank you to the contributors who have helped keep this running reliably:
 ## License
 
 MIT; see `LICENSE` in this repository.
+
+<br /><br />![I believe in RSS](i%20believe%20in%20rss.png)

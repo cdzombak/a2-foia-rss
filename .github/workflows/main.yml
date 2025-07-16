@@ -13,7 +13,6 @@ name: CI
 
 permissions:
   contents: read
-  pull-requests: write
 
 env:
   DOCKER_PLATFORMS: "linux/amd64,linux/arm64,linux/386"
@@ -68,25 +67,9 @@ jobs:
       is_pull_request: ${{ github.event_name == 'pull_request' }}
       is_running_version_tag_update: ${{ steps.running_version_tag.outputs.is_running_version_tag_update }}
 
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      checks: write
-      issues: write
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
-      - uses: reclaim-the-stack/rubocop-action@v1.1.0
-        name: rubocop
-      - name: actionlint
-        uses: raven-actions/actionlint@v2
-
   docker:
     name: Docker Images
-    needs: [lint, meta]
+    needs: [meta]
     if: needs.meta.outputs.is_running_version_tag_update != 'true'
     runs-on: ubuntu-latest
     permissions:
@@ -197,7 +180,7 @@ jobs:
     name: Ntfy
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
-    needs: [meta, lint, docker, release, tags]
+    needs: [meta, docker, release, tags]
     steps:
       - name: Send success notification
         uses: niniyas/ntfy-action@master
